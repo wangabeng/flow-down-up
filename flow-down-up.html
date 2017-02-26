@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+.good{
+	width:40px;
+	height:40px;
+	background:red;
+	position:absolute;
+	top:0;
+}
+</style>
+</head>
+<script src="myjs.js"></script>
+<script>
+window.onload=function(){
+	var aDiv=document.getElementsByTagName("div");
+	var length=10;
+	for (var i=0;i<length ;i++ )
+	{
+		document.body.innerHTML+="<div class='good'></div>";
+	}
+
+	var timer=null;
+	for (var i=0;i<length ;i++ )
+	{
+		aDiv[i].style.left=45*i+"px";
+	}
+	
+	for (var i=0;i<length ;i++ )
+	{
+		aDiv[i].style.left=45*i+"px";
+	}
+
+	var j=0;
+	var dir="down";
+	var onOff=true;
+	document.onclick=function(){
+		//不需要遍历每一个li的值top值 是否相等 如果相等 开关就打开 否则就关闭
+		//只需要遍历第一个和最后一个的li的top值相等 就可以把开关打开 否则开关关闭
+		if (getStyle(aDiv[0],"top")==getStyle(aDiv[length-1],"top"))
+		{
+			onOff=true;
+		}else {
+			onOff=false;
+		}
+
+		if (onOff==true){
+			//clearInterval(timer);
+			if (dir=="down")//此时可以向下运动
+			{
+				clearInterval(timer);
+				timer=setInterval(function(){
+						doMove(aDiv[j],"top",10,400);
+						j++;
+						if (j==length)
+						{
+							clearInterval(timer);
+						}
+					
+				},300);
+				j=0;
+				dir="up";
+				return false;//如果不加return false 此时方向已经变为up 接着会进行下面的if语句 这样会无限制循环 所以加retrun false很关键 可以阻止代码继续执行
+			}
+
+			if (dir=="up")
+			{
+				clearInterval(timer);
+				timer=setInterval(function(){
+						doMove(aDiv[j],"top",10,0);
+						j++;
+						if (j==length)
+						{
+							clearInterval(timer);
+						}
+					
+				},300);
+				j=0;
+				dir="down";
+				return false;
+			}
+		}
+	}
+};
+</script>
+<body>
+</body>
+</html>
